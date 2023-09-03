@@ -267,13 +267,16 @@ let getMealDetails = (meal) => {
 
     $("#loading").fadeOut(300);
 
-    let tags = meal.strTags.split(",");
     let strTags = ``;
-    for(let i = 0; i < tags.length;i++){
-        strTags+=`
-        <li class="alert alert-danger m-2 p-1">${tags[i]}</li>
-        `;
+    if(meal.strTags != null){
+        let tags = meal.strTags.split(",");
+        for(let i = 0; i < tags.length;i++){
+            strTags+=`
+            <li class="alert alert-danger m-2 p-1">${tags[i]}</li>
+            `;
+        }
     }
+
     let ings = [
         meal.strIngredient1,meal.strIngredient2,meal.strIngredient3,
         meal.strIngredient4,meal.strIngredient5,meal.strIngredient6,
