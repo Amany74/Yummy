@@ -1,10 +1,10 @@
 "use strict"
 // Load Main page
 // I check to never call it with empty so I added any char
+
 searchResponseByName("r")
 
 // Global var 
-let  mainMeals = []
 // Loading Screen
 let loading = (t)=>{
     
@@ -183,6 +183,7 @@ async function searchResponseByName(val){
     }
     
 }
+
 async function searchResponseByLetter(val){
     $("#searchLoading").html(`
         <div id="loading" class="bg-transparent">
@@ -191,7 +192,6 @@ async function searchResponseByLetter(val){
         `);
 
     let key = val;
-
     if(isNaN(key)){
         $("#Not-found").html("");
         $("#loading").fadeOut(700);
@@ -214,7 +214,6 @@ function UpdateSearchUi(meals){
     // Update Ui
 
     // Update main meals list we have every time we get new fetch
-    mainMeals = meals;
 
     meals = meals.slice(0,20);
     if(meals != null){
@@ -244,7 +243,7 @@ function UpdateSearchUi(meals){
 
 let addEventsToMeals = (meals) => {
     // add on click for meals in ui 
-    // get meal id from mainMeals array
+    // get meal id from meals array
     // locate in array 
     // display details page 
     let arr = $(".img-item-title");
@@ -256,8 +255,18 @@ let addEventsToMeals = (meals) => {
     
 }
 
+
 // Load single meal
-let getMealDetails = (meal) => {
+let getMealDetails = async function(m)  {
+    let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${m.idMeal}`);
+    respone = await respone.json();
+    updateMealUi(respone.meals[0])
+}
+
+function updateMealUi(meal){
+
+    console.log(meal.meals);
+    
     $("#main").html(`
     <div id="loading" class="bg-transparent">
     <div class="loader"></div>
@@ -318,9 +327,6 @@ let getMealDetails = (meal) => {
 
     `);
 }
-
-
-
 
 // Categories Page
 
